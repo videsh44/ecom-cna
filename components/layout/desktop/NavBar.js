@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar() {
   const [session, loading] = useSession();
-  console.log(session);
+  // console.log(session);
   const router = useRouter();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);

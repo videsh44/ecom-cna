@@ -29,7 +29,7 @@ export default NextAuth({
         };
 
         const res = await getLoginApi(form_values);
-        console.log(res.data);
+        // console.log(res.data);
 
         if (res && res.data) {
           // Any object returned will be saved in `user` property of the JWT
