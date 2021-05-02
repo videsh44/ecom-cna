@@ -1,0 +1,31 @@
+.detail__container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  max-width: 1400px;
+  margin: 40px auto 0px auto;
+}
+
+.image__container {
+  width: 40%;
+  padding: 50px;
+}
+
+.info__container {
+  width: 60%;
+  padding: 50px;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .detail__container {
+    flex-flow: column;
+  }
+  .image__container {
+    width: 100%;
+  }
+  .info__container {
+    width: 100%;
+  }
+}
