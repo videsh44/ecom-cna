@@ -21,6 +21,7 @@
 @media screen and (max-width: 768px) {
   .detail__container {
     flex-flow: column;
+    padding-bottom: 50px;
   }
   .image__container {
     width: 100%;
