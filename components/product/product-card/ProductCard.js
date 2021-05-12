@@ -2,9 +2,10 @@ import classes from './product-card.module.css';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 
-import Image from 'next/image';
 import { Fab } from '@material-ui/core';
 import Link from 'next/link';
+import Image from 'next/image';
+// import CommonImage from '../../common/image/CommonIamge';
 
 export default function ProductCard({
   productImage,

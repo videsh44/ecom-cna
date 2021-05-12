@@ -6,10 +6,12 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import Image from 'next/image';
+
 import classes from './product-detail.module.css';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import useWindowSize from '../../common/custom-hooks/useWindowSize';
+// import CommonImage from '../../common/image/CommonIamge';
+import Image from 'next/image';
 
 const useStyles = makeStyles((theme) => ({
   button: {
