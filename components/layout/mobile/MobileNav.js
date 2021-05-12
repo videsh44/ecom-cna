@@ -49,6 +49,11 @@ const MobileNav = ({ children }) => {
   const onIconsPress = (url) => {
     router.push(url);
   };
+
+  const handleLoginClick = () => {
+    router.push('/login');
+  };
+
   return (
     <>
       <AppBar className={classes.appbar} position="fixed">
@@ -56,7 +61,9 @@ const MobileNav = ({ children }) => {
           <Typography variant="h6" className={classes.title}>
             <Link href="/">VIDESH G</Link>
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button onClick={handleLoginClick} color="inherit">
+            Login
+          </Button>
         </Toolbar>
       </AppBar>
       <main className={classes.mainContainer}>{children}</main>
