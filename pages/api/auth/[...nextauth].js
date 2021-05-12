@@ -29,7 +29,6 @@ export default NextAuth({
         };
 
         const res = await getLoginApi(form_values);
-        // console.log(res.data);
 
         if (res && res.data) {
           // Any object returned will be saved in `user` property of the JWT
@@ -44,4 +43,24 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt(token, user, account, profile, isNewUser) {
+      if (user?.user_type) {
+        token.user_type = user.user_type;
+      }
+      if (user?.username) {
+        token.username = user.username;
+      }
+      if (user?.userId) {
+        token.userId = user.userId;
+      }
+      return token;
+    },
+    async session(session, token) {
+      session.user_type = token.user_type;
+      session.username = token.username;
+      session.userId = token.userId;
+      return session;
+    },
+  },
 });

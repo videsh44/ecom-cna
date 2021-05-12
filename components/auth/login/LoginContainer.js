@@ -8,6 +8,7 @@ import {
 import { useState } from 'react';
 import isEmail from 'validator/lib/isEmail';
 import { signIn } from 'next-auth/client';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginContainer = () => {
+  const router = useRouter();
   const classes = useStyles();
 
   const [values, setValues] = useState({
@@ -50,18 +52,19 @@ const LoginContainer = () => {
       return;
     }
 
-    const res = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-    });
-
-    console.log(res);
-    if (res) {
-      if (!res.error) {
-        window.location.href = '/';
+    try {
+      const res = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      });
+      if (res) {
+        if (!res.error) {
+          router.replace('/');
+          //window.location.href = '/';
+        }
       }
-    }
+    } catch (error) {}
   };
 
   return (

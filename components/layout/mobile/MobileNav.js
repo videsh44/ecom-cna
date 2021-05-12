@@ -14,6 +14,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/client';
 
 const useStyles = makeStyles((theme) => ({
   appbar: {
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MobileNav = ({ children }) => {
+  const [session] = useSession();
   const router = useRouter();
   const classes = useStyles();
   const [value, setValue] = useState('home');
@@ -54,6 +56,10 @@ const MobileNav = ({ children }) => {
     router.push('/login');
   };
 
+  const handleLogOutClick = () => {
+    signOut();
+  };
+
   return (
     <>
       <AppBar className={classes.appbar} position="fixed">
@@ -61,9 +67,16 @@ const MobileNav = ({ children }) => {
           <Typography variant="h6" className={classes.title}>
             <Link href="/">VIDESH G</Link>
           </Typography>
-          <Button onClick={handleLoginClick} color="inherit">
-            Login
-          </Button>
+          {!session && (
+            <Button onClick={handleLoginClick} color="inherit">
+              Login
+            </Button>
+          )}
+          {session && (
+            <Button onClick={handleLogOutClick} color="inherit">
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <main className={classes.mainContainer}>{children}</main>
@@ -87,17 +100,20 @@ const MobileNav = ({ children }) => {
           value="products"
           icon={<StorefrontIcon />}
         />
-
-        <BottomNavigationAction
-          label="Cart"
-          value="cart"
-          icon={<ShoppingCartIcon />}
-        />
-        <BottomNavigationAction
-          label="Admin"
-          value="admin"
-          icon={<PersonIcon />}
-        />
+        {session && (
+          <BottomNavigationAction
+            label="Cart"
+            value="cart"
+            icon={<ShoppingCartIcon />}
+          />
+        )}
+        {session && (
+          <BottomNavigationAction
+            label="Admin"
+            value="admin"
+            icon={<PersonIcon />}
+          />
+        )}
       </BottomNavigation>
     </>
   );

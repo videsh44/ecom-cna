@@ -12,11 +12,12 @@ import StorefrontIcon from '@material-ui/icons/Storefront';
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/client';
+import { useSession, signOut } from 'next-auth/client';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 const useStyles = makeStyles((theme) => ({
   appbar: {
@@ -86,8 +87,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NavBar() {
-  const [session, loading] = useSession();
-  // console.log(session);
+  const [session] = useSession();
   const router = useRouter();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -115,6 +115,12 @@ export default function NavBar() {
     router.push('/login');
   };
 
+  const onLogOutClick = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+    signOut();
+  };
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -134,9 +140,13 @@ export default function NavBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleLoginClick}>Login</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {!session && <MenuItem onClick={handleLoginClick}>Login</MenuItem>}
+      {session && <MenuItem onClick={onLogOutClick}>Logout</MenuItem>}
+      {session && (
+        <MenuItem onClick={handleMenuClose}>
+          {session.username ? session.username : 'Default Name'}
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -157,22 +167,26 @@ export default function NavBar() {
         </IconButton>
         <p>Products</p>
       </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
+      {session && (
+        <MenuItem>
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <MailIcon />
+            </Badge>
+          </IconButton>
+          <p>Messages</p>
+        </MenuItem>
+      )}
+      {session && (
+        <MenuItem>
+          <IconButton aria-label="show 11 new notifications" color="inherit">
+            <Badge badgeContent={11} color="secondary">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+          <p>Cart</p>
+        </MenuItem>
+      )}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -203,16 +217,23 @@ export default function NavBar() {
             >
               <StorefrontIcon />
             </IconButton>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            {session && (
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+            )}
+            {session && (
+              <IconButton
+                aria-label="show 17 new notifications"
+                color="inherit"
+              >
+                <Badge badgeContent={11} color="secondary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            )}
             <IconButton
               edge="end"
               aria-label="account of current user"

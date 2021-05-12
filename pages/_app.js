@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { Provider } from 'next-auth/client';
 import theme from '../styles/theme';
 import '../styles/globals.css';
 import Layout from '../components/layout/Layout';
@@ -16,20 +17,22 @@ function MyApp({ Component, pageProps }) {
   }, []);
   return (
     <>
-      <Layout deviceType={pageProps.deviceType || ''}>
-        <Head>
-          <title>My page</title>
-          <meta
-            name="viewport"
-            content="minimum-scale=1, initial-scale=1, width=device-width"
-          />
-        </Head>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </Layout>
+      <Provider session={pageProps.session}>
+        <Layout deviceType={pageProps.deviceType || ''}>
+          <Head>
+            <title>My page</title>
+            <meta
+              name="viewport"
+              content="minimum-scale=1, initial-scale=1, width=device-width"
+            />
+          </Head>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </Layout>
+      </Provider>
     </>
   );
 }

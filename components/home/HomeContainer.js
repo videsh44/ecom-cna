@@ -1,22 +1,43 @@
 import { Button, Icon, Link, makeStyles } from '@material-ui/core';
+import { useSession } from 'next-auth/client';
 
 const useStyle = makeStyles(() => ({
   container: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
   },
   link: {
     textDecoration: 'none',
   },
+  user__name: {
+    color: 'green',
+    textTransform: 'uppercase',
+  },
 }));
 
 const HomeContainer = () => {
+  const [session] = useSession();
   const classes = useStyle();
   return (
     <div className={classes.container}>
       <div>
-        <h3>HOME PAGE</h3>
+        {session ? (
+          <h3>
+            Welcome
+            {'  '}
+            <span className={classes.user__name}>
+              {session.username ? session.username : 'User'}
+            </span>
+            {'  '}
+            To Our Ecommerce Platform Check Out Our Products
+          </h3>
+        ) : (
+          <h3>
+            Welcome Guest To Our Ecommerce Platform Check Out Our Products
+          </h3>
+        )}
         <Link className={classes.link} href="/products">
           <Button
             variant="contained"
