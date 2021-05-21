@@ -9,7 +9,7 @@ const ProductDetailsPage = ({ productData }) => {
   return (
     <div>
       <Head>
-        <title>Product Detail</title>
+        <title>Product Details</title>
       </Head>
 
       <ProductDetailsContainer productData={productData} />
